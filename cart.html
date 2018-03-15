@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<head>
+    <link href="bootstrap\dist\css\bootstrap.min.css" rel="stylesheet">
+    <script src="js\bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <title> cart </title>
+    <style>
+        img {
+            height: 120px;
+            width: 120px
+        }
+
+        #snapdeal {
+            width: 350px;
+            height: 90px;
+        }
+    </style>
+
+</head>
+<body  ng-app="myApp"  ng-controller="costCtrl">
+<div><img id="snapdeal" src="Snapdeal.jpg">
+    <h1>Shopping cart </h1> <h3>Cart item : {{ data.length }} </h3></div>
+<div class="row">
+    <div class="col-md-3" ng-repeat="temp in data">
+
+        <img src="samsung S8.jpg">
+        <p> {{temp.name}}</p>
+        <div >
+            <h3>Price: {{ temp.price* temp.quantity | currency }}</h3>
+        </div>
+        <input type="button" value="-" ng-click="minus(temp.id)">
+        <input type="text" name="quantity" value="quantity:{{temp.quantity}}">
+        <input type="button" value="+" ng-click="plus(temp.id)">
+        <button type="submit">Remove</button>
+    </div>
+
+
+</div>
+<br>
+<br>
+
+<div>
+    <h3> Total price: {{ total }} </h3>
+    <input type="button" name="Continue shopping" value="Continue shopping">
+    <input type="button" name="Place order" value="Place order">
+
+</div>
+<script>
+    var app = angular.module('myApp', []);
+    app.controller('costCtrl', function ($scope) {
+        $scope.total=0;
+        $scope.getTotal = function(){
+            $scope.total=0;
+            for(i = 0; i < $scope.data.length; i++){
+                var product = $scope.data[i];
+                $scope.total += (product.price * product.quantity);
+
+
+            }
+        }
+        
+        $scope.plus = function (id) {
+            for (var i = 0; i < $scope.data.length; i++) {
+                if ($scope.data[i].id == id) {
+                    $scope.data[i].quantity = $scope.data[i].quantity + 1;
+                    console.log($scope.data)
+                    $scope.getTotal()
+                }
+            }
+        }
+        $scope.minus = function (id) {
+            for (var j = 0; j < $scope.data.length; j++) {
+                if ($scope.data[j].id == id) {
+                    if($scope.data[j].quantity>=2)
+                    $scope.data[j].quantity = $scope.data[j].quantity - 1;
+                    $scope.getTotal()
+                }
+            }
+        }
+
+        $scope.data=[
+            {
+                name:'Samsung galaxy note 8',
+                price:120,
+                id:1,
+                quantity:1
+            },{
+                name:'LENEVO galaxy note 8',
+                price:123,
+                id:2,
+                quantity:1
+            },{
+                name:'MI galaxy note 8',
+                price:110,
+                id:3,
+                quantity:1
+            },{
+                name:'APPLE galaxy note 8',
+                price:1200,
+                id:4,
+                quantity:1
+            },
+        ]
+        $scope.getTotal();
+    });
+</script>
+
+
+</body>
+
+</html>
